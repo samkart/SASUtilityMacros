@@ -125,11 +125,11 @@ options notes;
 
 %mend darchive;
 
-libname dmtest "//MktSci3/Projects/Immunology/Esbriet/Cross_Year/Esbriet_DM_Dashboard/esb_dm_trans_test/03_Output";
+libname dmtest "//Users/03_Output";
 
 options dlcreatedir;
-libname dmarchf "//MktSci3/Projects/Immunology/Esbriet/Cross_Year/Esbriet_DM_Dashboard/esb_dm_trans_test/03_Output/archf";
-libname dmarch "//MktSci3/Projects/Immunology/Esbriet/Cross_Year/Esbriet_DM_Dashboard/esb_dm_trans_test/03_Output/arch";
+libname dmarchf "//Users/03_Output/archf";
+libname dmarch "//Users/03_Output/arch";
 options nodlcreatedir;
 
 %darchive(dmtest,dmarch,)
@@ -160,10 +160,10 @@ run;
 
 %mend farchive;
 
-libname dmtest "//MktSci3/Projects/Immunology/Esbriet/Cross_Year/Esbriet_DM_Dashboard/esb_dm_trans_test/03_Output";
+libname dmtest "//Users/03_Output";
 
 options dlcreatedir;
-libname dmarchf "//MktSci3/Projects/Immunology/Esbriet/Cross_Year/Esbriet_DM_Dashboard/esb_dm_trans_test/03_Output/archf";
+libname dmarchf "//Users/03_Output/archf";
 options nodlcreatedir;
 
 %farchive(dmtest,dmarchf,mydataset.sas7bdat);
