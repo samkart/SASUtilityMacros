@@ -39,7 +39,7 @@ def frstDot(sdf, groupby=[], sortby=[], reversesort=False, complexsort=[], desc_
                 _frstRec = False
                 _res.append([val for val in row])
             else:
-                pass
+                break
 
         return _res
 
