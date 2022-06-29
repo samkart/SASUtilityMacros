@@ -5,7 +5,7 @@ https://blogs.sas.com/content/iml/2018/02/26/how-to-use-first-variable-and-last-
 """
 
 
-def frstDot(sdf, groupby=[], sortby=[], reversesort=False, complexsort=[], desc_str_datesort=False):
+def frstDot(sdf, groupby=[], sortby=[], reversesort=False, complexsort=[], desc_str_datesort=False, customsort=None):
     """
     equivalent of SAS `first.` - by sm15491
     :param sdf: :class: `DataFrame`
@@ -14,7 +14,16 @@ def frstDot(sdf, groupby=[], sortby=[], reversesort=False, complexsort=[], desc_
     :param reversesort: sort order for sortby fields
     :param complexsort: list of bools; different sort order for sortby fields; True for ASC, False for DESC
     :param desc_str_datesort: boolean; dates and strings being sorted
+    :param customsort: a custom sort function for the sort keys
     :return: :class: `DataFrame` with only single occurrences (row) of the group-sort key-value
+    :usage:
+        output_sdf = frstDot(
+            spark_df,
+            groupby=['col1', 'col2'],
+            sortby=['dt_col', 'colb', 'colc'],
+            customsort=lambda ok: (-int(ok.dt_col.strftime('%Y%m%d')), -ok.colb, ok.colc),
+            reversesort=True
+        )
     """
 
     assert (len(groupby) > 0) & (len(sortby) > 0), "groupby and sortby is required but one or both left blank"
@@ -45,7 +54,12 @@ def frstDot(sdf, groupby=[], sortby=[], reversesort=False, complexsort=[], desc_
 
     _groupKey = eval('lambda gk: ('+', '.join(['gk.' + k for k in groupby])+')')
 
-    if len(complexsort) > 0:
+    if customsort is not None:
+        print('Sort function provided. Overriding all other complex sort criteria')
+        complexsort = []
+        desc_str_datesort = False
+        _orderKey = customsort
+    elif len(complexsort) > 0:
         if not desc_str_datesort:
             reversesort = False
             print("complexsort provided. reversesort criterion is being nullified.")
